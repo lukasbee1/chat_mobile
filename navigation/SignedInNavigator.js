@@ -6,25 +6,26 @@ import {
 } from 'react-navigation';
 import TabBarIcon from '../components/TabBarIcon';
 
-import HomeScreen from '../screens/HomeScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import ChatsScreen from '../screens/ChatsScreen';
+import UsersScreen from '../screens/UsersScreen';
+import DialogScreen from '../screens/DialogScreen';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
   default: {},
 });
 
-const HomeStack = createStackNavigator(
+const ChatsStack = createStackNavigator(
   {
-    Home: ChatsScreen,
-    An: HomeScreen,
+    Chats: ChatsScreen,
+    Dialog: DialogScreen,
   },
   config
 );
 
-HomeStack.navigationOptions = {
-  tabBarLabel: 'Home',
+ChatsStack.navigationOptions = {
+  tabBarLabel: 'Chats',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -37,7 +38,31 @@ HomeStack.navigationOptions = {
   ),
 };
 
-HomeStack.path = '';
+ChatsStack.path = '';
+
+const UsersStack = createStackNavigator(
+  {
+    Users: UsersScreen,
+    Dialog: DialogScreen,
+  },
+  config
+);
+
+UsersStack.navigationOptions = {
+  tabBarLabel: 'Users',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={
+        Platform.OS === 'ios'
+          ? `ios-information-circle${focused ? '' : '-outline'}`
+          : 'md-information-circle'
+      }
+    />
+  ),
+};
+
+UsersStack.path = '';
 
 const SettingsStack = createStackNavigator(
   {
@@ -59,7 +84,8 @@ SettingsStack.navigationOptions = {
 SettingsStack.path = '';
 
 const SignedInNavigator = createBottomTabNavigator({
-  HomeStack,
+  UsersStack,
+  ChatsStack,
   SettingsStack,
 });
 

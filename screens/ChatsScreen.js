@@ -1,15 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Text } from 'react-native';
-import io from 'socket.io-client';
-import {
-  getChats,
-  initSocketConnection,
-  clientsUpdated,
-  chatsUpdated,
-  getChat,
-  sendMessage,
-} from '../Redux/actions';
+import { View, Text, List, FlatList, ListItem } from 'react-native';
+import { getChats, getUsers } from '../Redux/actions';
 
 class ChatsScreen extends Component {
   static navigationOptions = {
@@ -17,35 +9,18 @@ class ChatsScreen extends Component {
   };
 
   componentDidMount() {
-    const client = io('http://localhost:8080');
-    this.props.initSocketConnection(client);
-    client.on('connect', () => {
-      console.log('client connected, listening...');
-    });
-    client.on('clientsUpdated', usersInfo => {
-      this.props.clientsUpdated(usersInfo);
-    });
-    client.on('chatsUpdated', chatsInfo => {
-      this.props.chatsUpdated(chatsInfo);
-    });
-    client.on('reply', (data, sender, roomId) => {
-      this.props.sendMessage({ tweet: data, id: roomId, Sender: sender });
-      // this.getMess();
-    });
-    client.on('disconnect', () => {
-      console.log('Client socket disconnect. ');
-      // cl.splice(this.props.client.id, 1);
-      // this.props.client.close();
-    });
-    client.on('error', err => {
-      console.error(JSON.stringify(err));
-    });
+    this.props.getChats(this.props.user.id);
   }
+
+  componentDidUpdate() {}
 
   render() {
     return (
       <View>
-        <Text>chats</Text>
+        <FlatList
+          data={this.props.chatsList}
+          renderItem={({ item }) => <Text>{item.name}</Text>}
+        />
       </View>
     );
   }
@@ -54,9 +29,14 @@ class ChatsScreen extends Component {
 const mapStateToProps = state => ({
   client: state.client,
   user: state.user,
+  chatsList: state.chatsList,
+  usersList: state.usersList,
 });
 
 export default connect(
   mapStateToProps,
-  { getChats, initSocketConnection, clientsUpdated, chatsUpdated, getChat, sendMessage }
+  {
+    getChats,
+    getUsers,
+  }
 )(ChatsScreen);

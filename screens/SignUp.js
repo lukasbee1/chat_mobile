@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 
-import styles from '../constants/Styles';
 import {
   Keyboard,
   Text,
@@ -11,6 +10,7 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 import { Button } from 'react-native-elements';
+import styles from '../constants/Styles';
 
 export class SignUp extends PureComponent {
   render() {
@@ -33,13 +33,13 @@ export class SignUp extends PureComponent {
                 placeholder="Password"
                 placeholderColor="#c4c3cb"
                 style={styles.loginFormTextInput}
-                secureTextEntry={true}
+                secureTextEntry
               />
               <TextInput
                 placeholder="Confirm Password"
                 placeholderColor="#c4c3cb"
                 style={styles.loginFormTextInput}
-                secureTextEntry={true}
+                secureTextEntry
               />
               <Button
                 buttonStyle={styles.loginButton}

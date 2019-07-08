@@ -44,4 +44,10 @@ export default {
     marginTop: 10,
     backgroundColor: 'transparent',
   },
+
+  flatview: {
+    justifyContent: 'center',
+    paddingTop: 30,
+    borderRadius: 2,
+  },
 };

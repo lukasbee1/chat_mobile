@@ -1,4 +1,5 @@
 // import history from '../../history';
+import av from '../img/download.jpeg';
 
 export const initSocketConnection = socket => ({
   type: 'INIT_SOCKET_CONNECTION',
@@ -35,7 +36,7 @@ export const setEmit = (event, ...args) => (dispatch, getState) => {
 };
 
 export const getChats = id => dispatch => {
-  fetch(`http://localhost:8080/api/chatsList/userId${id}`, {
+  fetch(`http://192.168.0.107:8080/api/chatsList/userId${id}`, {
     method: 'GET',
   })
     .then(res => res.json())
@@ -45,17 +46,21 @@ export const getChats = id => dispatch => {
 };
 
 export const getUsers = () => dispatch => {
-  fetch('http://localhost:8080/api/usersList', {
+  fetch('http://192.168.0.107:8080/api/usersList', {
     method: 'GET',
   })
     .then(res => res.json())
     .then(users => {
       dispatch(clientsUpdated(users));
+    })
+    .catch(error => {
+      console.log('Api call error');
+      alert(error.message);
     });
 };
 
 export const getChat = id => dispatch => {
-  fetch(`http://localhost:8080/api/messages/id${id}`, {
+  fetch(`http://192.168.0.107:8080/api/messages/id${id}`, {
     method: 'GET',
   })
     .then(res => res.json())
@@ -65,7 +70,7 @@ export const getChat = id => dispatch => {
 };
 
 export const postLogin = obj => dispatch => {
-  fetch('http://localhost:8080/login', {
+  fetch('http://192.168.0.107:8080/login', {
     method: 'POST',
     body: JSON.stringify(obj),
     headers: {
@@ -74,12 +79,16 @@ export const postLogin = obj => dispatch => {
   })
     .then(res => res.json())
     .then(data => {
-      console.log(data);
-      dispatch(reduxSignIn(data));
-      localStorage.setItem('email', data.email);
-      localStorage.setItem('id', data.id);
-      localStorage.setItem('uniqueId', data.uniqueId);
-      localStorage.setItem('avatar', data.avatar);
+      return dispatch(reduxSignIn(data));
+      // localStorage.setItem('email', data.email);
+      // localStorage.setItem('id', data.id);
+      // localStorage.setItem('uniqueId', data.uniqueId);
+      // localStorage.setItem('avatar', data.avatar);
       // history.push('/messanger');
+    })
+    .then(() => true)
+    .catch(error => {
+      console.log('Api call error');
+      alert(error.message);
     });
 };

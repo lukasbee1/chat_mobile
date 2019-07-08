@@ -1,4 +1,4 @@
-import av from '../img/download.jpeg';
+const av = 'https://image.flaticon.com/icons/svg/74/74472.svg';
 
 const initialState = {
   client: null,
@@ -38,10 +38,9 @@ export default function user(state = initialState, action) {
         },
       };
     case 'SAVE_MESSAGES': {
-      console.log(action.payload.messages);
       const arr = [];
       action.payload.messages.forEach(obj => {
-        if (obj.Sender.avatar === null || !obj.Sender.avatar) {
+        if (!obj.Sender.avatar) {
           const newObj = obj;
           newObj.Sender.avatar = av;
           arr.push(newObj);
