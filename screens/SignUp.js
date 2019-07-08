@@ -1,20 +1,60 @@
 import React, { PureComponent } from 'react';
-import { View } from 'react-native';
-import { Button, Input } from 'react-native-elements';
+
+import styles from '../constants/Styles';
+import {
+  Keyboard,
+  Text,
+  View,
+  TextInput,
+  TouchableWithoutFeedback,
+  Alert,
+  KeyboardAvoidingView,
+} from 'react-native';
+import { Button } from 'react-native-elements';
 
 export class SignUp extends PureComponent {
   render() {
     return (
-      <View style={{ paddingVertical: 20 }}>
-        <Input label="Email" placeholder="Email address..." />
-        <Input label="Password" secureTextEntry placeholder="Password..." />
-
-        <Button
-          buttonStyle={{ marginTop: 20 }}
-          backgroundColor="#03A9F4"
-          title="SIGN IN"
-        />
-      </View>
+      <KeyboardAvoidingView
+        style={styles.containerView}
+        behavior="padding"
+        enabled
+      >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={styles.loginScreenContainer}>
+            <Text style={styles.logoText}>Sign Up</Text>
+            <View style={styles.loginFormView}>
+              <TextInput
+                placeholder="Username"
+                placeholderColor="#c4c3cb"
+                style={styles.loginFormTextInput}
+              />
+              <TextInput
+                placeholder="Password"
+                placeholderColor="#c4c3cb"
+                style={styles.loginFormTextInput}
+                secureTextEntry={true}
+              />
+              <TextInput
+                placeholder="Confirm Password"
+                placeholderColor="#c4c3cb"
+                style={styles.loginFormTextInput}
+                secureTextEntry={true}
+              />
+              <Button
+                buttonStyle={styles.loginButton}
+                onPress={() => this.onLoginPress()}
+                title="Login"
+              />
+              <Button
+                buttonStyle={styles.loginButton}
+                onPress={() => this.props.navigation.push('SignIp')}
+                title="Sign Up"
+              />
+            </View>
+          </View>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
     );
   }
 }
