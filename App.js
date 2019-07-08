@@ -10,10 +10,10 @@ const store = createStore(reducers, applyMiddleware(ReduxThunk));
 
 export default class App extends React.PureComponent {
   render() {
-  return (
+    return (
       <Provider store={store}>
-        <AppNavigator />;
+        <AppNavigator />
       </Provider>
-  )
-}
+    );
+  }
 }

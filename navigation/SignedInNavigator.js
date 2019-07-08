@@ -8,7 +8,7 @@ import TabBarIcon from '../components/TabBarIcon';
 
 import HomeScreen from '../screens/HomeScreen';
 import SettingsScreen from '../screens/SettingsScreen';
-import { ChatsScreen } from '../screens/ChatsScreen';
+import ChatsScreen from '../screens/ChatsScreen';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -18,6 +18,7 @@ const config = Platform.select({
 const HomeStack = createStackNavigator(
   {
     Home: ChatsScreen,
+    An: HomeScreen,
   },
   config
 );
