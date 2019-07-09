@@ -88,7 +88,6 @@ const SignedInNavigator = createBottomTabNavigator({
   ChatsStack,
   SettingsStack,
 });
-
 SignedInNavigator.path = '';
 
 export default SignedInNavigator;

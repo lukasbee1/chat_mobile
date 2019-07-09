@@ -1,5 +1,6 @@
 // import history from '../../history';
 import av from '../img/download.jpeg';
+import { LAN } from 'react-native-dotenv';
 
 export const initSocketConnection = socket => ({
   type: 'INIT_SOCKET_CONNECTION',
@@ -27,8 +28,12 @@ export const saveMessages = obj => ({
   type: 'SAVE_MESSAGES',
   payload: obj,
 });
-
+export const setActiveId = id => ({
+  type: 'SET_ACTIVE_ID',
+  payload: id,
+});
 export const setEmit = (event, ...args) => (dispatch, getState) => {
+  console.log('setEmit');
   const { client } = getState();
   const sock = client;
   sock.emit(event, ...args);
@@ -36,17 +41,21 @@ export const setEmit = (event, ...args) => (dispatch, getState) => {
 };
 
 export const getChats = id => dispatch => {
-  fetch(`http://192.168.0.107:8080/api/chatsList/userId${id}`, {
+  fetch(`http://${LAN}:8080/api/chatsList/userId${id}`, {
     method: 'GET',
   })
     .then(res => res.json())
     .then(rooms => {
       dispatch(chatsUpdated(rooms));
+    })
+    .catch(error => {
+      console.log('Api call error, getChats');
+      alert(error.message);
     });
 };
 
 export const getUsers = () => dispatch => {
-  fetch('http://192.168.0.107:8080/api/usersList', {
+  fetch(`http://${LAN}:8080/api/usersList`, {
     method: 'GET',
   })
     .then(res => res.json())
@@ -60,17 +69,18 @@ export const getUsers = () => dispatch => {
 };
 
 export const getChat = id => dispatch => {
-  fetch(`http://192.168.0.107:8080/api/messages/id${id}`, {
+  return fetch(`http://${LAN}:8080/api/messages/id${id}`, {
     method: 'GET',
   })
     .then(res => res.json())
     .then(messages => {
       dispatch(saveMessages({ messages, id }));
+      dispatch(setActiveId(id));
     });
 };
 
 export const postLogin = obj => dispatch => {
-  fetch('http://192.168.0.107:8080/login', {
+  fetch(`http://${LAN}:8080/login`, {
     method: 'POST',
     body: JSON.stringify(obj),
     headers: {

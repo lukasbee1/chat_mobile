@@ -12,7 +12,7 @@ export default {
   logoText: {
     fontSize: 40,
     fontWeight: '800',
-    marginTop: 150,
+    marginTop: 60,
     marginBottom: 30,
     textAlign: 'center',
   },
@@ -49,5 +49,12 @@ export default {
     justifyContent: 'center',
     paddingTop: 30,
     borderRadius: 2,
+  },
+  dialogScreen: {
+    flex: 1,
+    justifyContent: 'space-between',
+  },
+  inputContainer: {
+    justifyContent: 'space-around',
   },
 };

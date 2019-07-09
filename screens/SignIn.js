@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import io from 'socket.io-client';
-
+import { LAN } from 'react-native-dotenv';
 import {
   Keyboard,
   Text,
   View,
   TextInput,
   TouchableWithoutFeedback,
-  Alert,
   KeyboardAvoidingView,
 } from 'react-native';
 import { Button } from 'react-native-elements';
@@ -37,47 +36,45 @@ class SignIn extends Component {
 
   render() {
     return (
-      <KeyboardAvoidingView
-        style={styles.containerView}
-        behavior="padding"
-        enabled
-      >
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View style={styles.loginFormView}>
-            <View style={styles.loginScreenContainer}>
-              <Text style={styles.logoText}>Luxas Chat</Text>
-              <TextInput
-                placeholder="Username"
-                placeholderColor="#c4c3cb"
-                style={styles.loginFormTextInput}
-                onChangeText={email => this.setState({ email })}
-              />
-              <TextInput
-                placeholder="Password"
-                placeholderColor="#c4c3cb"
-                style={styles.loginFormTextInput}
-                secureTextEntry
-              />
-              <Button
-                buttonStyle={styles.loginButton}
-                onPress={() => this.onLoginPress()}
-                title="Login"
-              />
-              <Button
-                buttonStyle={styles.loginButton}
-                onPress={() => this.props.navigation.push('SignUp')}
-                title="Sign Up"
-              />
-              <Button
-                buttonStyle={styles.fbLoginButton}
-                onPress={() => this.onFbLoginPress()}
-                title="Login with Facebook"
-                color="#3897f1"
-              />
-            </View>
+      <View style={styles.loginFormView}>
+        <KeyboardAvoidingView
+          style={styles.containerView}
+          behavior="height"
+          enabled
+        >
+          <Text style={styles.logoText}>Luxas Chat</Text>
+          <View style={styles.loginScreenContainer}>
+            <TextInput
+              placeholder="Username"
+              placeholderColor="#c4c3cb"
+              style={styles.loginFormTextInput}
+              onChangeText={email => this.setState({ email })}
+            />
+            <TextInput
+              placeholder="Password"
+              placeholderColor="#c4c3cb"
+              style={styles.loginFormTextInput}
+              secureTextEntry
+            />
+            <Button
+              buttonStyle={styles.loginButton}
+              onPress={() => this.onLoginPress()}
+              title="Login"
+            />
+            <Button
+              buttonStyle={styles.loginButton}
+              onPress={() => this.props.navigation.push('SignUp')}
+              title="Sign Up"
+            />
+            <Button
+              buttonStyle={styles.fbLoginButton}
+              onPress={() => this.onFbLoginPress()}
+              title="Login with Facebook"
+              color="#3897f1"
+            />
           </View>
-        </TouchableWithoutFeedback>
-      </KeyboardAvoidingView>
+        </KeyboardAvoidingView>
+      </View>
     );
   }
 
@@ -89,7 +86,7 @@ class SignIn extends Component {
       name: this.state.email,
     };
     if (obj.email) {
-      const client = io('http://192.168.0.107:8080');
+      const client = io(`http://${LAN}:8080`);
       client.on('connect', () => {
         console.log('client connected, listening...');
       });
@@ -102,6 +99,7 @@ class SignIn extends Component {
         this.props.chatsUpdated(chatsInfo);
       });
       client.on('reply', (data, sender, roomId) => {
+        console.log('reply emited');
         this.props.sendMessage({ tweet: data, id: roomId, Sender: sender });
       });
       client.on('disconnect', () => {

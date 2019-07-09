@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, List, FlatList, ListItem } from 'react-native';
-import { getChats, getUsers } from '../Redux/actions';
+import { View, Text, FlatList, TouchableOpacity } from 'react-native';
+import { ListItem, Divider } from 'react-native-elements';
 
-class ChatsScreen extends Component {
+import { getChats, getChat } from '../Redux/actions';
+// import styles from '../constants/Styles';
+
+class UsersScreen extends Component {
   static navigationOptions = {
     title: 'Chats',
   };
@@ -12,31 +15,44 @@ class ChatsScreen extends Component {
     this.props.getChats(this.props.user.id);
   }
 
-  componentDidUpdate() {}
+  handleDialogPress = id => {
+    this.props.getChat(id).then(() => {
+      this.props.navigation.navigate('Dialog');
+    });
+  };
+
+  keyExtractor = (item, index) => index.toString();
+
+  renderItem = ({ item }) => {
+    return (
+      <TouchableOpacity onPress={() => this.handleDialogPress(item.id)}>
+        <ListItem
+          title={item.name}
+          subtitle={item.email}
+          leftAvatar={{ uri: item.avatar }}
+        />
+        <Divider />
+      </TouchableOpacity>
+    );
+  };
 
   render() {
     return (
-      <View>
-        <FlatList
-          data={this.props.chatsList}
-          renderItem={({ item }) => <Text>{item.name}</Text>}
-        />
-      </View>
+      <FlatList
+        keyExtractor={this.keyExtractor}
+        data={this.props.chatsList}
+        renderItem={this.renderItem}
+      />
     );
   }
 }
 
 const mapStateToProps = state => ({
-  client: state.client,
-  user: state.user,
   chatsList: state.chatsList,
-  usersList: state.usersList,
+  user: state.user,
 });
 
 export default connect(
   mapStateToProps,
-  {
-    getChats,
-    getUsers,
-  }
-)(ChatsScreen);
+  { getChats, getChat }
+)(UsersScreen);

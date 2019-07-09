@@ -2,7 +2,7 @@ const av = 'https://image.flaticon.com/icons/svg/74/74472.svg';
 
 const initialState = {
   client: null,
-  // activeChatId: null,
+  activeId: null,
   user: {
     name: '',
     email: '',
@@ -25,8 +25,12 @@ export default function user(state = initialState, action) {
         ...state,
         chats: [...this.state.chats, action.payload],
       };
+    case 'SET_ACTIVE_ID':
+      return {
+        ...state,
+        activeId: action.payload,
+      };
     case 'SEND_MESSAGE':
-      console.log(action.payload);
       return {
         ...state,
         chats: {
