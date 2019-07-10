@@ -10,6 +10,7 @@ import SettingsScreen from '../screens/SettingsScreen';
 import ChatsScreen from '../screens/ChatsScreen';
 import UsersScreen from '../screens/UsersScreen';
 import DialogScreen from '../screens/DialogScreen';
+import CreateDialogScreen from '../screens/CreateDialogScreen';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -20,6 +21,7 @@ const ChatsStack = createStackNavigator(
   {
     Chats: ChatsScreen,
     Dialog: DialogScreen,
+    CreateDialog: CreateDialogScreen,
   },
   config
 );

@@ -16,7 +16,7 @@ class Message extends PureComponent {
         />
         <View
           style={{
-            maxWidth: 325,
+            maxWidth: 315,
             borderRadius: 45,
             marginHorizontal: 10,
             paddingHorizontal: 20,

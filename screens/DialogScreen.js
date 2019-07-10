@@ -32,62 +32,89 @@ class DialogScreen extends Component {
   componentDidMount() {
     this.getMess();
   }
-  componentDidUpdate(prevProps) {
-    if (prevProps.chats !== this.props.chats) {
-      this.getMess();
-    }
-  }
+  // componentDidUpdate(prevProps) {
+  //   if (prevProps.chats !== this.props.chats) {
+  //     this.getMess();
+  //   }
+  // }
   getMess = () => {
     const { chats, activeId } = this.props;
+    // console.log(chats);
     this.setState({ currentMessages: chats[activeId] });
   };
   render() {
     const { currentMessages } = this.state;
-    const messageList = currentMessages.map(message => (
-      <Message
-        key={message.id}
-        details={message.tweet}
-        sender={message.Sender}
-      />
-    ));
+    const { activeId, chats } = this.props;
+    console.log(currentMessages);
+    // const messageList = currentMessages.map(message => (
+    //   <Message
+    //     key={message.id}
+    //     details={message.tweet}
+    //     sender={message.Sender}
+    //   />
+    // ));
     return (
       <KeyboardAvoidingView
         style={{ flex: 1 }}
-        behavior={Platform.OS === 'ios' ? 'padding' : null}
+        behavior={Platform.OS === 'ios' ? 'height' : null}
+        keyboardVerticalOffset={64}
       >
-        <ScrollView>
-          <View style={{ flex: 1 }}>
-            <View>{messageList}</View>
-          </View>
-        </ScrollView>
         <View
           style={{
-            height: 40,
-            width: '85%',
-            backgroundColor: '#fff',
-            justifySelf: 'flex-end',
-            flexDirection: 'row',
-            color: '#fff',
+            flex: 1,
+            flexDirection: 'column',
+            justifyContent: 'space-between',
           }}
         >
-          <TextInput
-            placeholder="type message..."
-            value={this.state.inpData}
-            placeholderColor="#c4c3cb"
-            onChangeText={inpData => this.setState({ inpData })}
-            style={{ flex: 10, fontSize: 20, paddingLeft: 10 }}
-          />
-          <TouchableOpacity
-            style={{ flex: 1 }}
-            onPress={() => this.sendMessage()}
+          <ScrollView
+            style={{}}
+            ref={ref => (this.scrollView = ref)}
+            onContentSizeChange={(contentWidth, contentHeight) => {
+              this.scrollView.scrollToEnd({ animated: true });
+            }}
           >
-            <Icon
-              name="sc-telegram"
-              type="evilicon"
-              color="#517fa4"
-              style={{ flex: 1 }}
+            {/* <View>
+              <View>{messageList}</View>
+            </View> */}
+            {chats[activeId]
+              ? chats[activeId].map(message => (
+                  <Message
+                    key={message.id}
+                    details={message.tweet}
+                    sender={message.Sender}
+                  />
+                ))
+              : null}
+          </ScrollView>
+          <View
+            style={{
+              width: '85%',
+              height: 30,
+              backgroundColor: '#fff',
+              flexDirection: 'row',
+              color: '#fff',
+              marginBottom: 20,
+            }}
+          >
+            <TextInput
+              placeholder="Message"
+              value={this.state.inpData}
+              placeholderColor="#c4c3cb"
+              onChangeText={inpData => this.setState({ inpData })}
+              style={{ height: 40, flex: 10, fontSize: 20, paddingLeft: 10 }}
             />
-          </TouchableOpacity>
+            <TouchableOpacity
+              style={{ flex: 1, justifyContent: 'center' }}
+              onPress={() => this.sendMessage()}
+            >
+              <Icon
+                name="sc-telegram"
+                type="evilicon"
+                color="#517fa4"
+                style={{ flex: 1 }}
+              />
+            </TouchableOpacity>
+          </View>
         </View>
       </KeyboardAvoidingView>
     );

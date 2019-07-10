@@ -12,6 +12,10 @@ export const sendMessage = message => ({
   payload: message,
 });
 
+export const reduxAddChat = chat => ({
+  type: 'ADD_CHAT',
+  payload: chat,
+});
 export const reduxSignIn = user => ({
   type: 'SIGN_IN',
   payload: user,
@@ -39,6 +43,10 @@ export const setEmit = (event, ...args) => (dispatch, getState) => {
   sock.emit(event, ...args);
   dispatch(initSocketConnection(sock));
 };
+export const createChat = chat => ({
+  type: 'CREATE_CHAT',
+  payload: chat,
+});
 
 export const getChats = id => dispatch => {
   fetch(`http://${LAN}:8080/api/chatsList/userId${id}`, {
@@ -76,6 +84,26 @@ export const getChat = id => dispatch => {
     .then(messages => {
       dispatch(saveMessages({ messages, id }));
       dispatch(setActiveId(id));
+    })
+    .catch(error => {
+      console.log('error', error);
+    });
+};
+export const postCreateChat = obj => (dispatch, getState) => {
+  return fetch(`http://${LAN}:8080/createChat`, {
+    method: 'POST',
+    body: JSON.stringify(obj),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then(res => res.json())
+    .then(chat => {
+      dispatch(createChat(chat));
+      dispatch(getChat(chat.id));
+    })
+    .catch(error => {
+      console.log('error', error);
     });
 };
 

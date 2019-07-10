@@ -1,20 +1,31 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, Text, FlatList, TouchableOpacity } from 'react-native';
-import { ListItem, Divider } from 'react-native-elements';
-
+import { ListItem, Divider, Icon } from 'react-native-elements';
 import { getChats, getChat } from '../Redux/actions';
 // import styles from '../constants/Styles';
 
-class UsersScreen extends Component {
-  static navigationOptions = {
+class ChatsScreen extends Component {
+  static navigationOptions = ({ navigation }) => ({
     title: 'Chats',
-  };
+    headerRight: (
+      <Icon
+        name="add"
+        color="blue"
+        size={30}
+        onPress={() => navigation.navigate('CreateDialog')}
+      />
+    ),
+  });
 
   componentDidMount() {
     this.props.getChats(this.props.user.id);
   }
-
+  componendDidUpdate(prevProps) {
+    if (this.props.chatsList !== prevProps.chatsList) {
+      // this.props.getChats(this.props.user.id);
+    }
+  }
   handleDialogPress = id => {
     this.props.getChat(id).then(() => {
       this.props.navigation.navigate('Dialog');
@@ -55,4 +66,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { getChats, getChat }
-)(UsersScreen);
+)(ChatsScreen);

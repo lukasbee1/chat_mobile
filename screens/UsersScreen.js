@@ -15,10 +15,6 @@ class UsersScreen extends Component {
     this.props.getUsers();
   }
 
-  componentDidUpdate() {
-    console.log(this.props.usersList);
-  }
-
   keyExtractor = (item, index) => index.toString();
 
   renderItem({ item }) {

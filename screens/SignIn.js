@@ -54,6 +54,7 @@ class SignIn extends Component {
               placeholder="Password"
               placeholderColor="#c4c3cb"
               style={styles.loginFormTextInput}
+              onChangeText={password => this.setState({ password })}
               secureTextEntry
             />
             <Button
