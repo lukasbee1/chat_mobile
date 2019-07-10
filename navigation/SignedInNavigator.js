@@ -24,7 +24,7 @@ const ChatsStack = createStackNavigator(
   config
 );
 
-ChatsStack.navigationOptions = {
+ChatsStack.navigationOptions = ({ navigation }) => ({
   tabBarLabel: 'Chats',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
@@ -36,7 +36,11 @@ ChatsStack.navigationOptions = {
       }
     />
   ),
-};
+  tabBarVisible:
+    navigation.state.routes[navigation.state.index].routeName === 'Dialog'
+      ? false
+      : true,
+});
 
 ChatsStack.path = '';
 
@@ -48,7 +52,7 @@ const UsersStack = createStackNavigator(
   config
 );
 
-UsersStack.navigationOptions = {
+UsersStack.navigationOptions = ({ navigation }) => ({
   tabBarLabel: 'Users',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
@@ -60,7 +64,11 @@ UsersStack.navigationOptions = {
       }
     />
   ),
-};
+  tabBarVisible:
+    navigation.state.routes[navigation.state.index].routeName === 'Dialog'
+      ? false
+      : true,
+});
 
 UsersStack.path = '';
 
