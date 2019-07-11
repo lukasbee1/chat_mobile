@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { ListItem, Divider, Button } from 'react-native-elements';
 import { getUsers, postCreateChat } from '../Redux/queries';
+import { resetToDialogAction } from '../utils/actions';
 // import styles from '../constants/Styles';
 
 class CreateDialogScreen extends Component {
@@ -27,6 +28,14 @@ class CreateDialogScreen extends Component {
     this.props.navigation.setParams({ createChat: this.handleCreatePress });
     this.props.getUsers();
   }
+  handleCreatePress = () => {
+    const { name, selectedUsers } = this.state;
+    this.props
+      .postCreateChat({ name, users: [this.props.user, ...selectedUsers] })
+      .then(() => {
+        this.props.navigation.dispatch(resetToDialogAction);
+      });
+  };
 
   handleUserPress = user => {
     const { selectedUsers } = this.state;
@@ -57,13 +66,10 @@ class CreateDialogScreen extends Component {
       </TouchableOpacity>
     );
   };
-  handleCreatePress = () => {
-    const { name, selectedUsers } = this.state;
-    this.props.postCreateChat({ name, users: selectedUsers }).then(() => {
-      this.props.navigation.navigate('Dialog');
-    });
-  };
   render() {
+    const list = this.props.usersList.filter(
+      user => user.uniqueId !== this.props.user.uniqueId
+    );
     return (
       <View>
         <Text>Users Selected: {this.state.selectedUsers.length}</Text>
@@ -74,7 +80,7 @@ class CreateDialogScreen extends Component {
         />
         <FlatList
           keyExtractor={this.keyExtractor}
-          data={this.props.usersList}
+          data={list}
           renderItem={this.renderItem}
         />
       </View>

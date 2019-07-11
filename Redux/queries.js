@@ -6,7 +6,9 @@ import {
   setActiveId,
   createChat,
   reduxSignIn,
+  setEmit,
 } from './actions';
+const routeToStaticData = `http://${LAN}:8080/public/`;
 
 export const getChats = id => dispatch => {
   fetch(`http://${LAN}:8080/api/chatsList/userId${id}`, {
@@ -44,6 +46,7 @@ export const getMessages = id => dispatch => {
     .then(messages => {
       dispatch(saveMessages({ messages, id }));
       dispatch(setActiveId(id));
+      dispatch(setEmit('activeChat', id));
     })
     .catch(error => {
       console.log('error', error);
@@ -68,6 +71,9 @@ export const postCreateChat = obj => (dispatch, getState) => {
 };
 
 export const postLogin = obj => dispatch => {
+  if (!obj.avatar) {
+    obj.avatar = `img/download.jpeg`;
+  }
   fetch(`http://${LAN}:8080/login`, {
     method: 'POST',
     body: JSON.stringify(obj),

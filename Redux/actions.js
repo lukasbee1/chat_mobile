@@ -1,6 +1,7 @@
 // import history from '../../history';
 import av from '../img/download.jpeg';
 import { LAN } from 'react-native-dotenv';
+import io from 'socket.io-client';
 
 export const initSocketConnection = socket => ({
   type: 'INIT_SOCKET_CONNECTION',
@@ -12,10 +13,6 @@ export const sendMessage = message => ({
   payload: message,
 });
 
-export const reduxAddChat = chat => ({
-  type: 'ADD_CHAT',
-  payload: chat,
-});
 export const reduxSignIn = user => ({
   type: 'SIGN_IN',
   payload: user,
@@ -27,6 +24,10 @@ export const clientsUpdated = users => ({
 export const chatsUpdated = chats => ({
   type: 'CHATS_UPDATED',
   payload: chats,
+});
+export const addChatAction = chat => ({
+  type: 'ADD_CHAT',
+  payload: chat,
 });
 export const saveMessages = obj => ({
   type: 'SAVE_MESSAGES',
@@ -43,10 +44,42 @@ export const createChat = chat => ({
 export const logOutAction = () => ({
   type: 'DELETE_USER',
 });
-export const onConnection = () => dispatch => {};
+
+export const createSocket = uniqueId => dispatch => {
+  const client = io(`http://${LAN}:8080`);
+  client.on('connect', () => {
+    console.log('client connected, listening...');
+    client.emit('uniqueId', uniqueId);
+  });
+  client.on('clientsUpdated', usersInfo => {
+    console.log('clients updated');
+    dispatch(clientsUpdated(usersInfo));
+  });
+  client.on('chatsUpdated', chatsInfo => {
+    console.log('chats updated');
+    dispatch(chatsUpdated(chatsInfo));
+  });
+  client.on('reply', (data, sender, roomId) => {
+    dispatch(sendMessage({ tweet: data, id: roomId, Sender: sender }));
+  });
+  client.on('disconnect', () => {
+    console.log('Client socket disconnect. ');
+    dispatch(logOutAction());
+
+    // cl.splice(this.props.client.id, 1);
+    // this.props.client.close();
+  });
+  client.on('error', err => {
+    console.error(JSON.stringify(err));
+  });
+  client.on('chatInvite', chat => {
+    console.log('New chat!');
+    dispatch(createChat(chat));
+  });
+  dispatch(initSocketConnection(client));
+};
 
 export const setEmit = (event, ...args) => (dispatch, getState) => {
-  console.log('setEmit');
   const { client } = getState();
   const sock = client;
   sock.emit(event, ...args);

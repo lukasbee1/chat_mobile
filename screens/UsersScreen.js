@@ -1,16 +1,21 @@
 import React, { Component } from 'react';
-import io from 'socket.io-client';
-import { LAN } from 'react-native-dotenv';
 import { connect } from 'react-redux';
-import { View, Text, FlatList, TouchableWithoutFeedback } from 'react-native';
+import {
+  View,
+  Text,
+  FlatList,
+  TouchableWithoutFeedback,
+  Image,
+} from 'react-native';
 import { ListItem, Divider } from 'react-native-elements';
-
+import { routeToStaticData } from 'react-native-dotenv';
 import { getUsers } from '../Redux/queries';
 import {
   initSocketConnection,
   sendMessage,
   clientsUpdated,
   chatsUpdated,
+  createSocket,
 } from '../Redux/actions';
 // import styles from '../constants/Styles';
 
@@ -20,31 +25,7 @@ class UsersScreen extends Component {
   };
 
   componentDidMount() {
-    const client = io(`http://${LAN}:8080`);
-    client.on('connect', () => {
-      console.log('client connected, listening...');
-    });
-    client.on('clientsUpdated', usersInfo => {
-      console.log('clients updated');
-      this.props.clientsUpdated(usersInfo);
-    });
-    client.on('chatsUpdated', chatsInfo => {
-      console.log('chats updated');
-      this.props.chatsUpdated(chatsInfo);
-    });
-    client.on('reply', (data, sender, roomId) => {
-      console.log('reply emited');
-      this.props.sendMessage({ tweet: data, id: roomId, Sender: sender });
-    });
-    client.on('disconnect', () => {
-      console.log('Client socket disconnect. ');
-      // cl.splice(this.props.client.id, 1);
-      // this.props.client.close();
-    });
-    client.on('error', err => {
-      console.error(JSON.stringify(err));
-    });
-    this.props.initSocketConnection(client);
+    this.props.createSocket(this.props.user.uniqueId);
 
     this.props.getUsers();
   }
@@ -57,8 +38,10 @@ class UsersScreen extends Component {
         <View>
           <ListItem
             title={item.name}
-            subtitle={item.email}
-            leftAvatar={{ uri: item.avatar }}
+            subtitle={`email: ${item.email}`}
+            leftAvatar={{
+              source: { uri: `${routeToStaticData}${item.avatar}` },
+            }}
           />
           <Divider />
         </View>
@@ -79,9 +62,17 @@ class UsersScreen extends Component {
 
 const mapStateToProps = state => ({
   usersList: state.usersList,
+  user: state.user,
 });
 
 export default connect(
   mapStateToProps,
-  { getUsers, initSocketConnection, clientsUpdated, chatsUpdated, sendMessage }
+  {
+    getUsers,
+    initSocketConnection,
+    clientsUpdated,
+    chatsUpdated,
+    sendMessage,
+    createSocket,
+  }
 )(UsersScreen);

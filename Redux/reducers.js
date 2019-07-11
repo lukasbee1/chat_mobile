@@ -29,6 +29,13 @@ export default function user(state = initialState, action) {
         //   [action.payload.id]: action.payload.users,
         // }
         chatsList: [...state.chatsList, action.payload],
+        // chats: {
+        //   ...state.chats,
+        //   [action.payload.id]: [
+        //     ...state.chats[action.payload.id],
+        //     action.payload,
+        //   ],
+        // },
       };
     case 'SET_ACTIVE_ID':
       return {
