@@ -1,17 +1,26 @@
 import React from 'react';
 import { Button } from 'react-native';
+import { connect } from 'react-redux';
+import { logOutAction } from '../Redux/actions';
 
-export default class SettingsScreen extends React.PureComponent {
+class SettingsScreen extends React.PureComponent {
+  static navigationOptions = {
+    title: 'Settings',
+  };
   render() {
     return (
       <Button
         title="Sign Out"
-        onPress={() => this.props.navigation.navigate('SignIn')}
+        onPress={() => {
+          this.props.navigation.navigate('SignIn');
+          this.props.logOutAction();
+        }}
       />
     );
   }
 }
 
-SettingsScreen.navigationOptions = {
-  title: 'Settings',
-};
+export default connect(
+  null,
+  { logOutAction }
+)(SettingsScreen);

@@ -93,6 +93,11 @@ export default function user(state = initialState, action) {
         user: action.payload,
       };
     }
+    case 'DELETE_USER':
+      return {
+        ...state,
+        user: {},
+      };
     default:
       return state;
   }

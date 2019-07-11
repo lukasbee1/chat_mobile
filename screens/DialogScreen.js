@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
-  SafeAreaView,
 } from 'react-native';
 import { setEmit } from '../Redux/actions';
 import { Icon } from 'react-native-elements';
@@ -17,9 +16,9 @@ import { ScrollView } from 'react-native-gesture-handler';
 
 class DialogScreen extends Component {
   state = {
-    currentMessages: [],
     inpData: '',
   };
+
   sendMessage = () => {
     const { inpData } = this.state;
     const { activeId, user } = this.props;
@@ -29,30 +28,8 @@ class DialogScreen extends Component {
     }
   };
 
-  componentDidMount() {
-    this.getMess();
-  }
-  // componentDidUpdate(prevProps) {
-  //   if (prevProps.chats !== this.props.chats) {
-  //     this.getMess();
-  //   }
-  // }
-  getMess = () => {
-    const { chats, activeId } = this.props;
-    // console.log(chats);
-    this.setState({ currentMessages: chats[activeId] });
-  };
   render() {
-    const { currentMessages } = this.state;
     const { activeId, chats } = this.props;
-    console.log(currentMessages);
-    // const messageList = currentMessages.map(message => (
-    //   <Message
-    //     key={message.id}
-    //     details={message.tweet}
-    //     sender={message.Sender}
-    //   />
-    // ));
     return (
       <KeyboardAvoidingView
         style={{ flex: 1 }}
@@ -73,9 +50,6 @@ class DialogScreen extends Component {
               this.scrollView.scrollToEnd({ animated: true });
             }}
           >
-            {/* <View>
-              <View>{messageList}</View>
-            </View> */}
             {chats[activeId]
               ? chats[activeId].map(message => (
                   <Message

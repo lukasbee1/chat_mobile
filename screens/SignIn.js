@@ -1,26 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import io from 'socket.io-client';
-import { LAN } from 'react-native-dotenv';
-import {
-  Keyboard,
-  Text,
-  View,
-  TextInput,
-  TouchableWithoutFeedback,
-  KeyboardAvoidingView,
-} from 'react-native';
+import { Text, View, TextInput, KeyboardAvoidingView } from 'react-native';
 import { Button } from 'react-native-elements';
 import styles from '../constants/Styles';
-import {
-  postLogin,
-  initSocketConnection,
-  clientsUpdated,
-  chatsUpdated,
-  sendMessage,
-} from '../Redux/actions';
+import { postLogin } from '../Redux/queries';
 
-// const appId = '1047121222092614';
+// const appId = '';
 
 class SignIn extends Component {
   state = {
@@ -37,42 +22,40 @@ class SignIn extends Component {
   render() {
     return (
       <View style={styles.loginFormView}>
-        <KeyboardAvoidingView
-          style={styles.containerView}
-          behavior="height"
-          enabled
-        >
-          <Text style={styles.logoText}>Luxas Chat</Text>
-          <View style={styles.loginScreenContainer}>
-            <TextInput
-              placeholder="Username"
-              placeholderColor="#c4c3cb"
-              style={styles.loginFormTextInput}
-              onChangeText={email => this.setState({ email })}
-            />
-            <TextInput
-              placeholder="Password"
-              placeholderColor="#c4c3cb"
-              style={styles.loginFormTextInput}
-              onChangeText={password => this.setState({ password })}
-              secureTextEntry
-            />
-            <Button
-              buttonStyle={styles.loginButton}
-              onPress={() => this.onLoginPress()}
-              title="Login"
-            />
-            <Button
-              buttonStyle={styles.loginButton}
-              onPress={() => this.props.navigation.push('SignUp')}
-              title="Sign Up"
-            />
-            <Button
-              buttonStyle={styles.fbLoginButton}
-              onPress={() => this.onFbLoginPress()}
-              title="Login with Facebook"
-              color="#3897f1"
-            />
+        <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" enabled>
+          <View style={{ flex: 1 }}>
+            <Text style={styles.logoText}>Auth</Text>
+            <View style={styles.loginScreenContainer}>
+              <TextInput
+                placeholder="Username"
+                placeholderColor="#c4c3cb"
+                style={styles.loginFormTextInput}
+                onChangeText={email => this.setState({ email })}
+              />
+              <TextInput
+                placeholder="Password"
+                placeholderColor="#c4c3cb"
+                style={styles.loginFormTextInput}
+                onChangeText={password => this.setState({ password })}
+                secureTextEntry
+              />
+              <Button
+                buttonStyle={styles.loginButton}
+                onPress={() => this.onLoginPress()}
+                title="Login"
+              />
+              <Button
+                buttonStyle={styles.loginButton}
+                onPress={() => this.props.navigation.push('SignUp')}
+                title="Sign Up"
+              />
+              {/* <Button
+                buttonStyle={styles.fbLoginButton}
+                onPress={() => this.onFbLoginPress()}
+                title="Login with Facebook"
+                color="#3897f1"
+              /> */}
+            </View>
           </View>
         </KeyboardAvoidingView>
       </View>
@@ -86,34 +69,7 @@ class SignIn extends Component {
       login: this.state.email,
       name: this.state.email,
     };
-    if (obj.email) {
-      const client = io(`http://${LAN}:8080`);
-      client.on('connect', () => {
-        console.log('client connected, listening...');
-      });
-      client.on('clientsUpdated', usersInfo => {
-        console.log('clients updated');
-        this.props.clientsUpdated(usersInfo);
-      });
-      client.on('chatsUpdated', chatsInfo => {
-        console.log('chats updated');
-        this.props.chatsUpdated(chatsInfo);
-      });
-      client.on('reply', (data, sender, roomId) => {
-        console.log('reply emited');
-        this.props.sendMessage({ tweet: data, id: roomId, Sender: sender });
-      });
-      client.on('disconnect', () => {
-        console.log('Client socket disconnect. ');
-        // cl.splice(this.props.client.id, 1);
-        // this.props.client.close();
-      });
-      client.on('error', err => {
-        console.error(JSON.stringify(err));
-      });
-      this.props.initSocketConnection(client);
-      this.props.postLogin(obj);
-    }
+    this.props.postLogin(obj);
   }
 
   // async onFbLoginPress() {
@@ -138,11 +94,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  {
-    postLogin,
-    initSocketConnection,
-    clientsUpdated,
-    chatsUpdated,
-    sendMessage,
-  }
+  { postLogin }
 )(SignIn);

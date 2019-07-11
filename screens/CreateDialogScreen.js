@@ -8,7 +8,7 @@ import {
   TextInput,
 } from 'react-native';
 import { ListItem, Divider, Button } from 'react-native-elements';
-import { getUsers, setActiveId, postCreateChat } from '../Redux/actions';
+import { getUsers, postCreateChat } from '../Redux/queries';
 // import styles from '../constants/Styles';
 
 class CreateDialogScreen extends Component {
@@ -89,5 +89,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getUsers, setActiveId, postCreateChat }
+  { getUsers, postCreateChat }
 )(CreateDialogScreen);
