@@ -1,5 +1,4 @@
 // import history from '../../history';
-import av from '../img/download.jpeg';
 import { LAN } from 'react-native-dotenv';
 import io from 'socket.io-client';
 
@@ -44,7 +43,10 @@ export const createChat = chat => ({
 export const logOutAction = () => ({
   type: 'DELETE_USER',
 });
-
+export const closeSocket = () => (dispatch, getState) => {
+  getState().client.disconnect();
+  dispatch(initSocketConnection(null));
+};
 export const createSocket = uniqueId => dispatch => {
   const client = io(`http://${LAN}:8080`);
   client.on('connect', () => {
@@ -65,9 +67,6 @@ export const createSocket = uniqueId => dispatch => {
   client.on('disconnect', () => {
     console.log('Client socket disconnect. ');
     dispatch(logOutAction());
-
-    // cl.splice(this.props.client.id, 1);
-    // this.props.client.close();
   });
   client.on('error', err => {
     console.error(JSON.stringify(err));

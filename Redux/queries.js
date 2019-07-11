@@ -8,7 +8,6 @@ import {
   reduxSignIn,
   setEmit,
 } from './actions';
-const routeToStaticData = `http://${LAN}:8080/public/`;
 
 export const getChats = id => dispatch => {
   fetch(`http://${LAN}:8080/api/chatsList/userId${id}`, {
@@ -52,7 +51,7 @@ export const getMessages = id => dispatch => {
       console.log('error', error);
     });
 };
-export const postCreateChat = obj => (dispatch, getState) => {
+export const postCreateChat = obj => dispatch => {
   return fetch(`http://${LAN}:8080/createChat`, {
     method: 'POST',
     body: JSON.stringify(obj),
@@ -71,9 +70,6 @@ export const postCreateChat = obj => (dispatch, getState) => {
 };
 
 export const postLogin = obj => dispatch => {
-  if (!obj.avatar) {
-    obj.avatar = `img/download.jpeg`;
-  }
   fetch(`http://${LAN}:8080/login`, {
     method: 'POST',
     body: JSON.stringify(obj),
