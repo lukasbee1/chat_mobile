@@ -78,15 +78,14 @@ export const postLogin = obj => dispatch => {
     },
   })
     .then(res => res.json())
-    .then(data => {
-      return dispatch(reduxSignIn(data));
-      // localStorage.setItem('email', data.email);
-      // localStorage.setItem('id', data.id);
-      // localStorage.setItem('uniqueId', data.uniqueId);
-      // localStorage.setItem('avatar', data.avatar);
-      // history.push('/messanger');
-    })
-    .then(() => true)
+    .then(data => dispatch(reduxSignIn(data)))
+    // localStorage.setItem('email', data.email);
+    // localStorage.setItem('id', data.id);
+    // localStorage.setItem('uniqueId', data.uniqueId);
+    // localStorage.setItem('avatar', data.avatar);
+    // history.push('/messanger');
+    // })
+    // .then(() => true)
     .catch(error => {
       console.log('Api call error');
       alert(error.message);

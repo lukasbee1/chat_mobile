@@ -14,7 +14,11 @@ class SignIn extends Component {
   };
 
   componentDidUpdate() {
+    console.log('did');
+
     if (this.props.user.uniqueId) {
+      console.log('login');
+
       this.props.navigation.navigate('SignedIn');
     }
   }
@@ -70,6 +74,7 @@ class SignIn extends Component {
       name: this.state.email,
     };
     this.props.postLogin(obj);
+    this.setState({ email: '', password: '' });
   }
 
   // async onFbLoginPress() {

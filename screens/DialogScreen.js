@@ -85,7 +85,7 @@ class DialogScreen extends Component {
                 name="sc-telegram"
                 type="evilicon"
                 color="#517fa4"
-                style={{ flex: 1 }}
+                style={{ flex: 1, size: 20 }}
               />
             </TouchableOpacity>
           </View>

@@ -45,7 +45,7 @@ export const logOutAction = () => ({
 });
 export const closeSocket = () => (dispatch, getState) => {
   getState().client.disconnect();
-  dispatch(initSocketConnection(null));
+  return dispatch(initSocketConnection(null));
 };
 export const createSocket = uniqueId => dispatch => {
   const client = io(`http://${LAN}:8080`);
@@ -75,12 +75,12 @@ export const createSocket = uniqueId => dispatch => {
     console.log('New chat!');
     dispatch(createChat(chat));
   });
-  dispatch(initSocketConnection(client));
+  return dispatch(initSocketConnection(client));
 };
 
 export const setEmit = (event, ...args) => (dispatch, getState) => {
   const { client } = getState();
   const sock = client;
   sock.emit(event, ...args);
-  dispatch(initSocketConnection(sock));
+  return dispatch(initSocketConnection(sock));
 };
