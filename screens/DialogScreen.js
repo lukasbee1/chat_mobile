@@ -32,7 +32,7 @@ class DialogScreen extends Component {
     const { activeId, chats } = this.props;
     return (
       <KeyboardAvoidingView
-        style={{ flex: 1 }}
+        style={{ flex: 1, backgroundColor: 'gray' }}
         behavior={Platform.OS === 'ios' ? 'height' : null}
         keyboardVerticalOffset={64}
       >
@@ -75,19 +75,23 @@ class DialogScreen extends Component {
               value={this.state.inpData}
               placeholderColor="#c4c3cb"
               onChangeText={inpData => this.setState({ inpData })}
-              style={{ height: 40, flex: 10, fontSize: 20, paddingLeft: 10 }}
+              style={{
+                height: 40,
+                width: '95%',
+                fontSize: 20,
+                paddingLeft: 10,
+                paddingBottom: 15,
+              }}
             />
-            <TouchableOpacity
-              style={{ flex: 1, justifyContent: 'center' }}
+            <Icon
+              reverse
+              name="sc-telegram"
+              type="evilicon"
+              color="#517fa4"
               onPress={() => this.sendMessage()}
-            >
-              <Icon
-                name="sc-telegram"
-                type="evilicon"
-                color="#517fa4"
-                style={{ flex: 1, size: 20 }}
-              />
-            </TouchableOpacity>
+              size="20"
+              style={{}}
+            />
           </View>
         </View>
       </KeyboardAvoidingView>

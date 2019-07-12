@@ -14,11 +14,7 @@ class SignIn extends Component {
   };
 
   componentDidUpdate() {
-    console.log('did');
-
     if (this.props.user.uniqueId) {
-      console.log('login');
-
       this.props.navigation.navigate('SignedIn');
     }
   }
