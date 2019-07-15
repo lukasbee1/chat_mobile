@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Text, View, Image } from 'react-native';
 import { Avatar } from 'react-native-elements';
+import { routeToStaticData } from 'react-native-dotenv';
 
 class Message extends PureComponent {
   render() {
@@ -11,7 +12,7 @@ class Message extends PureComponent {
       >
         <Avatar
           rounded
-          source={{ uri: this.props.sender.avatar }}
+          source={{ uri: `${routeToStaticData}${this.props.sender.avatar}` }}
           style={{ width: 25, height: 25 }}
         />
         <View

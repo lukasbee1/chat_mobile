@@ -1,22 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {
-  View,
-  Text,
-  FlatList,
-  TouchableWithoutFeedback,
-  Image,
-} from 'react-native';
+import { View, FlatList, TouchableWithoutFeedback } from 'react-native';
 import { ListItem, Divider } from 'react-native-elements';
 import { routeToStaticData } from 'react-native-dotenv';
 import { getUsers } from '../Redux/queries';
-import {
-  initSocketConnection,
-  sendMessage,
-  clientsUpdated,
-  chatsUpdated,
-  createSocket,
-} from '../Redux/actions';
+import { clientsUpdated, createSocket } from '../Redux/actions';
 // import styles from '../constants/Styles';
 
 class UsersScreen extends Component {
@@ -26,13 +14,13 @@ class UsersScreen extends Component {
 
   componentDidMount() {
     this.props.createSocket(this.props.user.uniqueId);
-
     this.props.getUsers();
   }
 
   keyExtractor = (item, index) => index.toString();
 
-  renderItem({ item }) {
+  renderItem = ({ item }) => {
+    console.log(`${routeToStaticData}${item.avatar}`);
     return (
       <TouchableWithoutFeedback>
         <View>
@@ -47,7 +35,7 @@ class UsersScreen extends Component {
         </View>
       </TouchableWithoutFeedback>
     );
-  }
+  };
 
   render() {
     return (
@@ -69,10 +57,7 @@ export default connect(
   mapStateToProps,
   {
     getUsers,
-    initSocketConnection,
     clientsUpdated,
-    chatsUpdated,
-    sendMessage,
     createSocket,
   }
 )(UsersScreen);

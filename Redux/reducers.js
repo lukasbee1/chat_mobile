@@ -1,5 +1,3 @@
-const av = 'https://image.flaticon.com/icons/svg/74/74472.svg';
-
 const initialState = {
   client: null,
   activeId: null,
@@ -8,7 +6,7 @@ const initialState = {
     email: '',
     uniqueId: '',
     id: null,
-    avatar: av,
+    avatar: '',
   },
   friends: [],
   blockedUsers: [],
@@ -54,19 +52,11 @@ export default function user(state = initialState, action) {
         },
       };
     case 'SAVE_MESSAGES': {
-      const arr = [];
-      action.payload.messages.forEach(obj => {
-        if (!obj.Sender.avatar) {
-          const newObj = obj;
-          newObj.Sender.avatar = av;
-          arr.push(newObj);
-        } else arr.push(obj);
-      });
       return {
         ...state,
         chats: {
           ...state.chats,
-          [action.payload.id]: arr,
+          [action.payload.id]: action.payload.messages,
         },
       };
     }
@@ -87,14 +77,6 @@ export default function user(state = initialState, action) {
       };
 
     case 'SIGN_IN': {
-      if (!action.payload.avatar) {
-        const obj = action.payload;
-        obj.avatar = av;
-        return {
-          ...state,
-          user: obj,
-        };
-      }
       return {
         ...state,
         user: action.payload,

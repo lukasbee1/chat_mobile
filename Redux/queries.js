@@ -70,6 +70,9 @@ export const postCreateChat = obj => dispatch => {
 };
 
 export const postLogin = obj => dispatch => {
+  if (!obj.avatar) {
+    obj.avatar = 'img/download.jpeg';
+  }
   fetch(`http://${LAN}:8080/login`, {
     method: 'POST',
     body: JSON.stringify(obj),

@@ -19,6 +19,18 @@ class SignIn extends Component {
     }
   }
 
+  onLoginPress() {
+    const obj = {
+      type: 'profile',
+      email: this.state.email,
+      login: this.state.email,
+      name: this.state.email,
+      password: this.state.password,
+    };
+    this.props.postLogin(obj);
+    this.setState({ email: '', password: '' });
+  }
+
   render() {
     return (
       <View style={styles.loginFormView}>
@@ -60,17 +72,6 @@ class SignIn extends Component {
         </KeyboardAvoidingView>
       </View>
     );
-  }
-
-  onLoginPress() {
-    const obj = {
-      type: 'profile',
-      email: this.state.email,
-      login: this.state.email,
-      name: this.state.email,
-    };
-    this.props.postLogin(obj);
-    this.setState({ email: '', password: '' });
   }
 
   // async onFbLoginPress() {
