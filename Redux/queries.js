@@ -69,10 +69,31 @@ export const postCreateChat = obj => dispatch => {
     });
 };
 
-export const postLogin = obj => dispatch => {
+export const postRegister = obj => dispatch => {
   if (!obj.avatar) {
     obj.avatar = 'img/download.jpeg';
   }
+  fetch(`http://${LAN}:8080/register`, {
+    method: 'POST',
+    body: JSON.stringify(obj),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (!data.error) {
+        return dispatch(reduxSignIn(data));
+      }
+      alert(data.error);
+      return data.error;
+    })
+    .catch(error => {
+      console.log('Api call error');
+      alert(error.message);
+    });
+};
+export const postLogin = obj => dispatch => {
   fetch(`http://${LAN}:8080/login`, {
     method: 'POST',
     body: JSON.stringify(obj),
@@ -81,14 +102,14 @@ export const postLogin = obj => dispatch => {
     },
   })
     .then(res => res.json())
-    .then(data => dispatch(reduxSignIn(data)))
-    // localStorage.setItem('email', data.email);
-    // localStorage.setItem('id', data.id);
-    // localStorage.setItem('uniqueId', data.uniqueId);
-    // localStorage.setItem('avatar', data.avatar);
-    // history.push('/messanger');
-    // })
-    // .then(() => true)
+    .then(data => {
+      console.log(data);
+      if (data.uniqueId) return dispatch(reduxSignIn(data));
+      else {
+        alert(data.error);
+        return data.error;
+      }
+    })
     .catch(error => {
       console.log('Api call error');
       alert(error.message);

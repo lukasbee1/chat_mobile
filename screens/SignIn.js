@@ -9,7 +9,7 @@ import { postLogin } from '../Redux/queries';
 
 class SignIn extends Component {
   state = {
-    email: '',
+    login: '',
     password: '',
   };
 
@@ -21,14 +21,11 @@ class SignIn extends Component {
 
   onLoginPress() {
     const obj = {
-      type: 'profile',
-      email: this.state.email,
-      login: this.state.email,
-      name: this.state.email,
+      login: this.state.login,
       password: this.state.password,
     };
+    console.log(this.state.login);
     this.props.postLogin(obj);
-    this.setState({ email: '', password: '' });
   }
 
   render() {
@@ -42,7 +39,7 @@ class SignIn extends Component {
                 placeholder="Username"
                 placeholderColor="#c4c3cb"
                 style={styles.loginFormTextInput}
-                onChangeText={email => this.setState({ email })}
+                onChangeText={login => this.setState({ login })}
               />
               <TextInput
                 placeholder="Password"

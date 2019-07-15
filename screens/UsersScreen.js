@@ -4,7 +4,7 @@ import { View, FlatList, TouchableWithoutFeedback } from 'react-native';
 import { ListItem, Divider } from 'react-native-elements';
 import { routeToStaticData } from 'react-native-dotenv';
 import { getUsers } from '../Redux/queries';
-import { clientsUpdated, createSocket } from '../Redux/actions';
+import { createSocket } from '../Redux/actions';
 // import styles from '../constants/Styles';
 
 class UsersScreen extends Component {
@@ -20,7 +20,6 @@ class UsersScreen extends Component {
   keyExtractor = (item, index) => index.toString();
 
   renderItem = ({ item }) => {
-    console.log(`${routeToStaticData}${item.avatar}`);
     return (
       <TouchableWithoutFeedback>
         <View>
@@ -55,9 +54,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  {
-    getUsers,
-    clientsUpdated,
-    createSocket,
-  }
+  { getUsers, createSocket }
 )(UsersScreen);

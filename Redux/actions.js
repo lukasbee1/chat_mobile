@@ -1,4 +1,3 @@
-// import history from '../../history';
 import { LAN } from 'react-native-dotenv';
 import io from 'socket.io-client';
 

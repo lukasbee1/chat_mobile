@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, FlatList, TouchableOpacity } from 'react-native';
+import { FlatList, TouchableOpacity } from 'react-native';
 import { ListItem, Divider, Icon } from 'react-native-elements';
 import { getChats, getMessages } from '../Redux/queries';
 // import styles from '../constants/Styles';

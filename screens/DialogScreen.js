@@ -1,18 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Message from '../components/Message';
-import {
-  Text,
-  View,
-  TextInput,
-  TouchableOpacity,
-  KeyboardAvoidingView,
-  Platform,
-} from 'react-native';
-import { setEmit } from '../Redux/actions';
-import { Icon } from 'react-native-elements';
-import styles from '../constants/Styles';
 import { ScrollView } from 'react-native-gesture-handler';
+import { Icon } from 'react-native-elements';
+import { View, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
+import Message from '../components/Message';
+import { setEmit } from '../Redux/actions';
+// import styles from '../constants/Styles';
 
 class DialogScreen extends Component {
   state = {

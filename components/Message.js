@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
-import { connect } from 'react-redux';
-import { Text, View, Image } from 'react-native';
+import { Text, View } from 'react-native';
 import { Avatar } from 'react-native-elements';
 import { routeToStaticData } from 'react-native-dotenv';
 
