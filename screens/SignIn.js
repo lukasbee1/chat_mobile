@@ -1,41 +1,52 @@
 import React, { Component } from 'react';
-
-import styles from '../constants/Styles';
-import {
-  Keyboard,
-  Text,
-  View,
-  TextInput,
-  TouchableWithoutFeedback,
-  Alert,
-  KeyboardAvoidingView,
-} from 'react-native';
+import { connect } from 'react-redux';
+import { Text, View, TextInput, KeyboardAvoidingView } from 'react-native';
 import { Button } from 'react-native-elements';
+import styles from '../constants/Styles';
+import { postLogin } from '../Redux/queries';
 
-const appId = '1047121222092614';
+// const appId = '';
 
-export default class SignIn extends Component {
+class SignIn extends Component {
+  state = {
+    login: '',
+    password: '',
+  };
+
+  componentDidUpdate() {
+    if (this.props.user.uniqueId) {
+      this.props.navigation.navigate('SignedIn');
+    }
+  }
+
+  onLoginPress() {
+    const obj = {
+      login: this.state.login,
+      password: this.state.password,
+    };
+    console.log(this.state.login);
+    this.props.postLogin(obj);
+  }
+
   render() {
     return (
-      <KeyboardAvoidingView
-        style={styles.containerView}
-        behavior="padding"
-        enabled
-      >
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View style={styles.loginFormView}>
+      <View style={styles.loginFormView}>
+        <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" enabled>
+          <View style={{ flex: 1 }}>
+            <Text style={styles.logoText}>Auth</Text>
             <View style={styles.loginScreenContainer}>
-              <Text style={styles.logoText}>Luxas Chat</Text>
               <TextInput
                 placeholder="Username"
                 placeholderColor="#c4c3cb"
                 style={styles.loginFormTextInput}
+                onChangeText={login => this.setState({ login })}
               />
               <TextInput
                 placeholder="Password"
                 placeholderColor="#c4c3cb"
                 style={styles.loginFormTextInput}
-                secureTextEntry={true}
+                onChangeText={password => this.setState({ password })}
+                secureTextEntry
               />
               <Button
                 buttonStyle={styles.loginButton}
@@ -47,35 +58,40 @@ export default class SignIn extends Component {
                 onPress={() => this.props.navigation.push('SignUp')}
                 title="Sign Up"
               />
-              <Button
+              {/* <Button
                 buttonStyle={styles.fbLoginButton}
                 onPress={() => this.onFbLoginPress()}
                 title="Login with Facebook"
                 color="#3897f1"
-              />
+              /> */}
             </View>
           </View>
-        </TouchableWithoutFeedback>
-      </KeyboardAvoidingView>
+        </KeyboardAvoidingView>
+      </View>
     );
   }
 
-  onLoginPress() {
-    this.props.navigation.navigate('SignedIn');
-  }
-
-  async onFbLoginPress() {
-    const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync(
-      appId,
-      {
-        permissions: ['public_profile', 'email'],
-      }
-    );
-    if (type === 'success') {
-      const response = await fetch(
-        `https://graph.facebook.com/me?access_token=${token}`
-      );
-      Alert.alert('Logged in!', `Hi ${(await response.json()).name}!`);
-    }
-  }
+  // async onFbLoginPress() {
+  //   const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync(
+  //     appId,
+  //     {
+  //       permissions: ['public_profile', 'email'],
+  //     }
+  //   );
+  //   if (type === 'success') {
+  //     const response = await fetch(
+  //       `https://graph.facebook.com/me?access_token=${token}`
+  //     );
+  //     Alert.alert('Logged in!', `Hi ${(await response.json()).name}!`);
+  //   }
+  // }
 }
+
+const mapStateToProps = state => ({
+  user: state.user,
+});
+
+export default connect(
+  mapStateToProps,
+  { postLogin }
+)(SignIn);

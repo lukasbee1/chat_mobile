@@ -1,8 +1,6 @@
-const React = require('react-native');
+const { StyleSheet } = require('react-native');
 
-const { StyleSheet } = React;
-
-export default {
+export default StyleSheet.create({
   containerView: {
     flex: 1,
   },
@@ -12,7 +10,7 @@ export default {
   logoText: {
     fontSize: 40,
     fontWeight: '800',
-    marginTop: 150,
+    marginTop: 60,
     marginBottom: 30,
     textAlign: 'center',
   },
@@ -44,4 +42,67 @@ export default {
     marginTop: 10,
     backgroundColor: 'transparent',
   },
-};
+
+  flatview: {
+    justifyContent: 'center',
+    paddingTop: 30,
+    borderRadius: 2,
+  },
+  inputContainer: {
+    justifyContent: 'space-around',
+  },
+  container: {
+    flex: 1,
+  },
+  dialogScreen: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+  },
+  bottomSide: {
+    backgroundColor: '#b5b3ae',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    color: '#fff',
+  },
+  bottomSideInput: {
+    marginLeft: 40,
+    marginVertical: 4,
+    width: 290,
+    fontSize: 20,
+    paddingLeft: 10,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+  },
+  messageContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    marginBottom: 3,
+    margin: 10,
+  },
+  messageText: {
+    maxWidth: 290,
+    borderRadius: 10,
+    marginHorizontal: 6,
+    paddingHorizontal: 10,
+    paddingVertical: 7,
+    backgroundColor: '#b5b2b1',
+  },
+  messageIcon: {
+    marginTop: 4,
+    width: 25,
+    height: 25,
+  },
+  senderMess: {
+    flex: 1,
+    marginBottom: 3,
+    margin: 10,
+    flexDirection: 'row-reverse',
+  },
+  defaultMess: {
+    flex: 1,
+    flexDirection: 'row',
+    marginBottom: 3,
+    margin: 10,
+  },
+});

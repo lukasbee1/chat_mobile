@@ -1,14 +1,26 @@
 import React from 'react';
-import { ExpoConfigView } from '@expo/samples';
+import { Button } from 'react-native';
+import { connect } from 'react-redux';
+import { closeSocket } from '../Redux/actions';
 
-export default function SettingsScreen() {
-  /**
-   * Go ahead and delete ExpoConfigView and replace it with your content;
-   * we just wanted to give you a quick view of your config.
-   */
-  return <ExpoConfigView />;
+class SettingsScreen extends React.PureComponent {
+  static navigationOptions = {
+    title: 'Settings',
+  };
+  render() {
+    return (
+      <Button
+        title="Sign Out"
+        onPress={() => {
+          this.props.navigation.navigate('SignIn');
+          this.props.closeSocket();
+        }}
+      />
+    );
+  }
 }
 
-SettingsScreen.navigationOptions = {
-  title: 'app.json',
-};
+export default connect(
+  null,
+  { closeSocket }
+)(SettingsScreen);

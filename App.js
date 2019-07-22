@@ -12,7 +12,7 @@ export default class App extends React.PureComponent {
   render() {
     return (
       <Provider store={store}>
-        <AppNavigator />;
+        <AppNavigator />
       </Provider>
     );
   }
