@@ -74,7 +74,7 @@ export const postLogin = obj => dispatch => {
   })
     .then(res => res.json())
     .then(data => {
-      console.log(data);
+      // console.log(data);
       dispatch(reduxSignIn(data));
       localStorage.setItem('email', data.email);
       localStorage.setItem('id', data.id);
