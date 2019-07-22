@@ -2,33 +2,27 @@ import React, { PureComponent } from 'react';
 import { Text, View } from 'react-native';
 import { Avatar } from 'react-native-elements';
 import { routeToStaticData } from 'react-native-dotenv';
+import styles from '../constants/Styles';
 
 class Message extends PureComponent {
-  render() {
+  render = () => {
+    const whoSend =
+      this.props.sender.uniqueId === this.props.uniqueId
+        ? styles.senderMess
+        : styles.defaultMess;
     return (
-      <View
-        style={{ flex: 1, flexDirection: 'row', marginBottom: 15, margin: 10 }}
-      >
+      <View style={whoSend}>
         <Avatar
           rounded
           source={{ uri: `${routeToStaticData}${this.props.sender.avatar}` }}
-          style={{ width: 25, height: 25 }}
+          style={styles.messageIcon}
         />
-        <View
-          style={{
-            maxWidth: 315,
-            borderRadius: 45,
-            marginHorizontal: 10,
-            paddingHorizontal: 20,
-            paddingVertical: 7,
-            backgroundColor: 'grey',
-          }}
-        >
+        <View style={styles.messageText}>
           <Text>{this.props.details}</Text>
         </View>
       </View>
     );
-  }
+  };
 }
 
 export default Message;

@@ -19,22 +19,20 @@ class UsersScreen extends Component {
 
   keyExtractor = (item, index) => index.toString();
 
-  renderItem = ({ item }) => {
-    return (
-      <TouchableWithoutFeedback>
-        <View>
-          <ListItem
-            title={item.name}
-            subtitle={`email: ${item.email}`}
-            leftAvatar={{
-              source: { uri: `${routeToStaticData}${item.avatar}` },
-            }}
-          />
-          <Divider />
-        </View>
-      </TouchableWithoutFeedback>
-    );
-  };
+  renderItem = ({ item }) => (
+    <TouchableWithoutFeedback>
+      <View>
+        <ListItem
+          title={item.name}
+          subtitle={`email: ${item.email}`}
+          leftAvatar={{
+            source: { uri: `${routeToStaticData}${item.avatar}` },
+          }}
+        />
+        <Divider />
+      </View>
+    </TouchableWithoutFeedback>
+  );
 
   render() {
     return (

@@ -39,9 +39,7 @@ ChatsStack.navigationOptions = ({ navigation }) => ({
     />
   ),
   tabBarVisible:
-    navigation.state.routes[navigation.state.index].routeName === 'Dialog'
-      ? false
-      : true,
+    navigation.state.routes[navigation.state.index].routeName !== 'Dialog',
 });
 
 ChatsStack.path = '';

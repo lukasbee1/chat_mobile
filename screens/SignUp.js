@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
   Keyboard,
@@ -6,22 +6,21 @@ import {
   View,
   TextInput,
   TouchableWithoutFeedback,
-  Alert,
   KeyboardAvoidingView,
 } from 'react-native';
-import { postRegister } from '../Redux/queries';
 import { Button } from 'react-native-elements';
+import { postRegister } from '../Redux/queries';
 import styles from '../constants/Styles';
 
-export class SignUp extends PureComponent {
+class SignUp extends Component {
   state = {
     login: null,
     email: '',
     password: '',
     oPassword: '',
   };
+
   onRegisterPress = () => {
-    console.log('register');
     if (this.state.login && this.state.password === this.state.oPassword) {
       const obj = {
         type: 'profile',
@@ -88,7 +87,7 @@ export class SignUp extends PureComponent {
               <Button
                 buttonStyle={styles.loginButton}
                 onPress={() => this.props.navigation.push('SignIn')}
-                title="Sign Ip"
+                title="Sign In"
               />
             </View>
           </View>

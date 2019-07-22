@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FlatList, TouchableOpacity } from 'react-native';
 import { ListItem, Divider, Icon } from 'react-native-elements';
+import { routeToStaticData } from 'react-native-dotenv';
 import { getChats, getMessages } from '../Redux/queries';
 // import styles from '../constants/Styles';
 
@@ -11,7 +12,7 @@ class ChatsScreen extends Component {
     headerRight: (
       <Icon
         name="add"
-        color="blue"
+        color="black"
         size={30}
         onPress={() => navigation.navigate('CreateDialog')}
       />
@@ -36,7 +37,9 @@ class ChatsScreen extends Component {
         <ListItem
           title={item.name}
           subtitle={item.email}
-          leftAvatar={{ uri: item.avatar }}
+          leftAvatar={{
+            source: { uri: `${routeToStaticData}${item.avatar}` },
+          }}
         />
         <Divider />
       </TouchableOpacity>
