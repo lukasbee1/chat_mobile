@@ -43,7 +43,7 @@ export const getMessages = id => dispatch => {
   })
     .then(res => res.json())
     .then(messages => {
-      dispatch(saveMessages({ messages, id }));
+      dispatch(saveMessages(messages));
       dispatch(setActiveId(id));
       dispatch(setEmit('activeChat', id));
     })

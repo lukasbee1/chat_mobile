@@ -7,7 +7,7 @@ import styles from '../constants/Styles';
 class Message extends PureComponent {
   render = () => {
     const whoSend =
-      this.props.sender.uniqueId === this.props.uniqueId
+      this.props.sender.uniqueId === this.props.user.uniqueId
         ? styles.senderMess
         : styles.defaultMess;
     return (

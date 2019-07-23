@@ -22,7 +22,11 @@ class DialogScreen extends Component {
     const { inpData } = this.state;
     const { activeId, user } = this.props;
     if (inpData !== '') {
-      this.props.setEmit('reply', inpData, user, activeId);
+      this.props.setEmit('message', {
+        tweet: inpData,
+        sender: user,
+        roomId: activeId,
+      });
       this.setState({ inpData: '' });
     }
   };
@@ -49,8 +53,8 @@ class DialogScreen extends Component {
                     <Message
                       key={message.id}
                       details={message.tweet}
-                      sender={message.Sender}
-                      uniqueId={user.uniqueId}
+                      sender={message.sender}
+                      user={user}
                     />
                   ))
                 : null}

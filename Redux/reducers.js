@@ -21,19 +21,7 @@ export default function user(state = initialState, action) {
     case 'CREATE_CHAT':
       return {
         ...state,
-        // chats: [...this.state.chats, action.payload],
-        // chats: {
-        //   ...state.chats,
-        //   [action.payload.id]: action.payload.users,
-        // }
         chatsList: [...state.chatsList, action.payload],
-        // chats: {
-        //   ...state.chats,
-        //   [action.payload.id]: [
-        //     ...state.chats[action.payload.id],
-        //     action.payload,
-        //   ],
-        // },
       };
     case 'SET_ACTIVE_ID':
       return {
@@ -45,20 +33,23 @@ export default function user(state = initialState, action) {
         ...state,
         chats: {
           ...state.chats,
-          [action.payload.id]: [
-            ...state.chats[action.payload.id],
+          [action.payload.roomId]: [
+            ...state.chats[action.payload.roomId],
             action.payload,
           ],
         },
       };
     case 'SAVE_MESSAGES': {
-      return {
-        ...state,
-        chats: {
-          ...state.chats,
-          [action.payload.id]: action.payload.messages,
-        },
-      };
+      if (action.payload[0]) {
+        return {
+          ...state,
+          chats: {
+            ...state.chats,
+            [action.payload[0].roomId]: action.payload,
+          },
+        };
+      }
+      return { ...state };
     }
     case 'CLIENTS_UPDATED':
       return {

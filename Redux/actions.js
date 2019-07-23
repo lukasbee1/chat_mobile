@@ -60,8 +60,8 @@ export const createSocket = uniqueId => dispatch => {
     console.log('chats updated');
     dispatch(chatsUpdated(chatsInfo));
   });
-  client.on('reply', (data, sender, roomId) => {
-    dispatch(sendMessage({ tweet: data, id: roomId, Sender: sender }));
+  client.on('reply', obj => {
+    dispatch(sendMessage(obj));
   });
   client.on('disconnect', () => {
     console.log('Client socket disconnect. ');
