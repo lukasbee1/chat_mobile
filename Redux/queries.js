@@ -52,6 +52,9 @@ export const getMessages = id => dispatch => {
     });
 };
 export const postCreateChat = obj => dispatch => {
+  if (!obj.avatar) {
+    obj.avatar = 'img/group.png';
+  }
   return fetch(`http://${LAN}:8080/createChat`, {
     method: 'POST',
     body: JSON.stringify(obj),
