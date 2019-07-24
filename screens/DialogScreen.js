@@ -44,7 +44,7 @@ class DialogScreen extends Component {
             style={{}}
             ref={ref => (this.scrollView = ref)}
             onContentSizeChange={(contentWidth, contentHeight) => {
-              this.scrollView.scrollToEnd({ animated: false });
+              this.scrollView.scrollToEnd({ animated: true });
             }}
           >
             <View style={{ flex: 1, flexDirection: 'column' }}>
