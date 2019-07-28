@@ -11,7 +11,7 @@ import {
 import { ListItem, Divider, Button, Icon } from 'react-native-elements';
 import { getUsers, postCreateChat } from '../Redux/queries';
 import { resetToDialogAction } from '../utils/actions';
-// import styles from '../constants/Styles';
+import styles from '../constants/Styles';
 
 class CreateDialogScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -33,11 +33,13 @@ class CreateDialogScreen extends Component {
 
   handleCreatePress = () => {
     const { name, selectedUsers } = this.state;
-    this.props
-      .postCreateChat({ name, users: [this.props.user, ...selectedUsers] })
-      .then(() => {
-        this.props.navigation.dispatch(resetToDialogAction);
-      });
+    if (name && selectedUsers !== []) {
+      this.props
+        .postCreateChat({ name, users: [this.props.user, ...selectedUsers] })
+        .then(() => {
+          this.props.navigation.dispatch(resetToDialogAction);
+        });
+    }
   };
 
   handleUserPress = user => {
@@ -58,6 +60,9 @@ class CreateDialogScreen extends Component {
   keyExtractor = (item, index) => index.toString();
 
   renderItem = ({ item }) => {
+    const iconName = this.state.selectedUsers.includes(item)
+      ? 'check-box'
+      : 'check-box-outline-blank';
     return (
       <TouchableOpacity onPress={() => this.handleUserPress(item)}>
         <ListItem
@@ -66,14 +71,7 @@ class CreateDialogScreen extends Component {
           leftAvatar={{
             source: { uri: `${routeToStaticData}${item.avatar}` },
           }}
-          rightIcon={
-            <Icon
-              name="check_box"
-              color="black"
-              size={30}
-              onPress={() => console.log('pressed')}
-            />
-          }
+          rightIcon={<Icon name={iconName} color="black" size={30} />}
         />
         <Divider />
       </TouchableOpacity>
@@ -86,11 +84,11 @@ class CreateDialogScreen extends Component {
     );
     return (
       <View>
-        <Text>Users Selected: {this.state.selectedUsers.length}</Text>
         <TextInput
           placeholder="enter chat name"
           placeholderColor="#c4c3cb"
           onChangeText={name => this.setState({ name })}
+          style={styles.loginFormTextInput}
         />
         <FlatList
           keyExtractor={this.keyExtractor}

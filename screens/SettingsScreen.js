@@ -7,6 +7,7 @@ class SettingsScreen extends React.PureComponent {
   static navigationOptions = {
     title: 'Settings',
   };
+
   render() {
     return (
       <Button
